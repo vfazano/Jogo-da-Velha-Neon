@@ -1,70 +1,233 @@
-# Getting Started with Create React App
+# 🎮 Jogo da Velha Neon
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Um jogo da velha desenvolvido utilizando **React.js**, com uma interface moderna, vibrante e inspirada em jogos com estética neon.
 
-## Available Scripts
+O projeto foi desenvolvido com foco em praticar os conceitos básicos do React, principalmente **componentes, estados, eventos e renderização dinâmica**, além de trabalhar estilização utilizando CSS.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Demonstração
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+O jogo possui uma interface com:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- 🎮 Tabuleiro 3x3
+- ❌ Jogador X
+- ⭕ Jogador O
+- 🏆 Detecção automática do vencedor
+- 🤝 Detecção de empate
+- 🔄 Botão para iniciar uma nova partida
+- 🌈 Cores vibrantes em estilo neon
+- ✨ Efeitos de brilho e animações
+- 🖼️ Imagem de fundo
+- 📱 Interface responsiva para diferentes tamanhos de tela
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Tecnologias utilizadas
 
-### `npm run build`
+### React.js
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+O projeto foi desenvolvido utilizando **React.js**.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+O React foi utilizado para criar a interface do jogo e controlar a interação entre o usuário e o tabuleiro.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### JavaScript
 
-### `npm run eject`
+O JavaScript é responsável pela lógica do jogo, incluindo:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Controle das jogadas
+- Alternância entre X e O
+- Verificação das combinações vencedoras
+- Identificação de empate
+- Reinicialização da partida
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### JSX
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+O JSX foi utilizado para estruturar a interface dentro do componente React.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Exemplo:
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<div className="board">
+  {board.map((value, index) => (
+    <button
+      key={index}
+      className={"cell " + value}
+      onClick={() => play(index)}
+    >
+      {value}
+    </button>
+  ))}
+</div>
+🧠 Conceitos de React utilizados
+useState
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+O projeto utiliza o useState para controlar o estado do jogo.
 
-### Code Splitting
+São utilizados estados para armazenar:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Tabuleiro
+Jogador atual
+Resultado da partida
 
-### Analyzing the Bundle Size
+Exemplo:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+const [board, setBoard] = useState([
+  "", "", "",
+  "", "", "",
+  "", "", ""
+]);
 
-### Making a Progressive Web App
+const [turn, setTurn] = useState("X");
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+const [winner, setWinner] = useState("");
+🎯 Funcionamento do jogo
 
-### Advanced Configuration
+O jogo começa com o jogador X.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+A cada clique em uma casa vazia:
 
-### Deployment
+A jogada é registrada.
+O tabuleiro é atualizado.
+O sistema verifica se existe um vencedor.
+Caso não exista vencedor, o turno passa para o próximo jogador.
+Se todas as casas forem preenchidas sem vencedor, o resultado é empate.
+Combinações vencedoras
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+O sistema verifica as 8 possibilidades de vitória:
 
-### `npm run build` fails to minify
+[0, 1, 2]
+[3, 4, 5]
+[6, 7, 8]
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[0, 3, 6]
+[1, 4, 7]
+[2, 5, 8]
+
+[0, 4, 8]
+[2, 4, 6]
+
+Essas combinações representam as linhas, colunas e diagonais do tabuleiro.
+
+🎨 Interface
+
+A interface foi criada utilizando CSS puro, sem a necessidade de instalar bibliotecas adicionais.
+
+Identidade visual
+
+O projeto utiliza uma estética:
+
+🌌 Fundo escuro
+💙 Azul neon para o jogador X
+💗 Rosa neon para o jogador O
+💜 Roxo como cor de destaque
+✨ Efeitos de brilho
+🎨 Gradientes
+🔲 Efeito de vidro/transparência
+📱 Design responsivo
+🖼️ Imagem de fundo
+
+O projeto utiliza uma imagem externa como plano de fundo através do CSS.
+
+A imagem é carregada diretamente pela propriedade:
+
+background-image: url("https://images.unsplash.com/...");
+
+Não foi necessário instalar nenhuma biblioteca para utilizar a imagem.
+
+📂 Estrutura do projeto
+
+A estrutura principal utilizada é:
+
+PRIMEIRO/
+│
+├── node_modules/
+│
+├── public/
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+│
+├── src/
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   └── setupTests.js
+│
+├── .gitignore
+├── package.json
+├── package-lock.json
+└── README.md
+🚀 Como executar o projeto
+1. Instalar o Node.js
+
+É necessário ter o Node.js instalado no computador.
+
+2. Abrir o projeto
+
+Abra a pasta do projeto no VS Code ou outro editor de código.
+
+3. Instalar as dependências
+
+No terminal:
+
+npm install
+4. Iniciar o projeto
+
+Execute:
+
+npm start
+
+Depois disso, o projeto será executado no navegador.
+
+Normalmente estará disponível em:
+
+http://localhost:3000
+📦 Dependências
+
+O projeto utiliza a estrutura padrão criada pelo Create React App.
+
+Não foram adicionadas bibliotecas externas para a criação do jogo.
+
+A lógica foi desenvolvida utilizando os recursos nativos do React e JavaScript.
+
+🎮 Como jogar
+O jogador X começa.
+Clique em uma das casas do tabuleiro.
+O jogador O fará a próxima jogada.
+Continue alternando entre os jogadores.
+O primeiro jogador a completar uma linha, coluna ou diagonal vence.
+Caso todas as casas sejam preenchidas sem vencedor, ocorre um empate.
+Clique em "NOVA PARTIDA" para começar novamente.
+📚 Objetivo do projeto
+
+Este projeto foi desenvolvido com o objetivo de praticar:
+
+React.js
+JavaScript
+JSX
+useState
+Eventos no React
+Renderização de listas com map()
+Manipulação de arrays
+Estruturas condicionais
+Funções
+CSS
+Responsividade
+Organização de um projeto frontend
+👨‍💻 Autor
+
+Vitor Fazano
+
+Projeto desenvolvido para estudos e prática de desenvolvimento web com React.
+
+📄 Licença
+
+Este projeto foi desenvolvido para fins educacionais e de aprendizado.
