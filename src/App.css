@@ -1,38 +1,534 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* =========================
+   FUNDO
+========================= */
+
+.game {
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 30px 20px;
+
+  position: relative;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(7, 3, 20, 0.94),
+      rgba(27, 5, 48, 0.90)
+    ),
+    url("https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=2000&q=90");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Luzes decorativas do fundo */
+
+.game::before {
+  content: "";
+
+  position: absolute;
+
+  width: 450px;
+  height: 450px;
+
+  top: -180px;
+  left: -180px;
+
+  background: #00e5ff;
+
+  border-radius: 50%;
+
+  filter: blur(150px);
+
+  opacity: 0.18;
+
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.game::after {
+  content: "";
+
+  position: absolute;
+
+  width: 450px;
+  height: 450px;
+
+  right: -180px;
+  bottom: -180px;
+
+  background: #ff00cc;
+
+  border-radius: 50%;
+
+  filter: blur(150px);
+
+  opacity: 0.20;
+
+  pointer-events: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* =========================
+   CONTAINER PRINCIPAL
+========================= */
+
+.game-container {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 500px;
+
+  padding: 38px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20, 14, 42, 0.94),
+      rgba(12, 8, 28, 0.96)
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  border-radius: 32px;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 25px 80px rgba(0, 0, 0, 0.75),
+    0 0 60px rgba(138, 43, 226, 0.20);
+
+  backdrop-filter: blur(20px);
+
+  animation: entrance 0.7s ease-out;
+}
+
+/* Linha colorida no topo */
+
+.game-container::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 12%;
+
+  width: 76%;
+  height: 3px;
+
+  border-radius: 50px;
+
+  background: linear-gradient(
+    90deg,
+    #00f5ff,
+    #7c3aed,
+    #ff2bd6
+  );
+
+  box-shadow:
+    0 0 15px #00f5ff,
+    0 0 30px #ff2bd6;
+}
+
+/* =========================
+   TÍTULO
+========================= */
+
+h1 {
+  margin: 0;
+
+  font-size: clamp(36px, 9vw, 58px);
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  letter-spacing: -2px;
+
+  background: linear-gradient(
+    90deg,
+    #00f5ff 0%,
+    #7c3aed 45%,
+    #ff2bd6 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.35));
+}
+
+/* =========================
+   SUBTÍTULO
+========================= */
+
+.subtitle {
+  margin: 12px 0 28px;
+
+  color: #9f9bb8;
+
+  font-size: 12px;
+
+  font-weight: bold;
+
+  letter-spacing: 6px;
+
+  text-transform: uppercase;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+  display: inline-flex;
+
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+
+  min-height: 42px;
+
+  margin-bottom: 22px;
+
+  padding: 10px 20px;
+
+  border-radius: 50px;
+
+  color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.055);
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  box-shadow:
+    inset 0 0 20px rgba(255, 255, 255, 0.02),
+    0 0 20px rgba(124, 58, 237, 0.10);
 }
 
-.App-link {
-  color: #61dafb;
+/* =========================
+   TABULEIRO
+========================= */
+
+.board {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 14px;
+
+  width: 100%;
+
+  max-width: 410px;
+
+  margin: 0 auto;
 }
 
-@keyframes App-logo-spin {
+/* =========================
+   CASAS
+========================= */
+
+.cell {
+  position: relative;
+
+  aspect-ratio: 1 / 1;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  color: #ffffff;
+
+  font-size: clamp(48px, 13vw, 78px);
+
+  font-weight: 900;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Brilho interno */
+
+.cell::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 2px;
+
+  border-radius: 20px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.04),
+    transparent
+  );
+
+  pointer-events: none;
+}
+
+/* Hover */
+
+.cell:hover {
+  transform: translateY(-4px) scale(1.025);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(124, 58, 237, 0.25),
+      rgba(255, 43, 214, 0.12)
+    );
+
+  border-color: rgba(168, 85, 247, 0.7);
+
+  box-shadow:
+    0 8px 25px rgba(124, 58, 237, 0.25),
+    inset 0 0 25px rgba(168, 85, 247, 0.08);
+}
+
+/* Clique */
+
+.cell:active {
+  transform: scale(0.96);
+}
+
+/* =========================
+   JOGADOR X
+========================= */
+
+.cell.X {
+  color: #00f5ff;
+
+  text-shadow:
+    0 0 8px #00f5ff,
+    0 0 20px #00f5ff,
+    0 0 40px rgba(0, 245, 255, 0.7);
+
+  animation: appear 0.25s ease-out;
+}
+
+/* =========================
+   JOGADOR O
+========================= */
+
+.cell.O {
+  color: #ff2bd6;
+
+  text-shadow:
+    0 0 8px #ff2bd6,
+    0 0 20px #ff2bd6,
+    0 0 40px rgba(255, 43, 214, 0.7);
+
+  animation: appear 0.25s ease-out;
+}
+
+/* =========================
+   BOTÃO
+========================= */
+
+.restart {
+  position: relative;
+
+  width: 100%;
+
+  margin-top: 28px;
+
+  padding: 17px 20px;
+
+  border: none;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6d28d9,
+      #9333ea,
+      #db2777
+    );
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 30px rgba(124, 58, 237, 0.35),
+    inset 0 1px rgba(255, 255, 255, 0.2);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.restart::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+
+  transition: 0.5s;
+}
+
+.restart:hover::before {
+  left: 100%;
+}
+
+.restart:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 15px 40px rgba(219, 39, 119, 0.4),
+    0 0 25px rgba(124, 58, 237, 0.25);
+}
+
+.restart:active {
+  transform: scale(0.97);
+}
+
+/* =========================
+   ANIMAÇÕES
+========================= */
+
+@keyframes entrance {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+
+    transform:
+      translateY(30px)
+      scale(0.96);
   }
+
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
   }
 }
+
+@keyframes appear {
+  from {
+    opacity: 0;
+
+    transform: scale(0.4);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+  .game {
+    padding: 15px;
+  }
+
+  .game-container {
+    padding: 28px 20px;
+
+    border-radius: 25px;
+  }
+
+  h1 {
+    font-size: 38px;
+  }
+
+  .subtitle {
+    font-size: 10px;
+
+    letter-spacing: 4px;
+  }
+
+  .board {
+    gap: 9px;
+  }
+
+  .cell {
+    border-radius: 17px;
+  }
+}
+
+@media (max-width: 380px) {
+  .game-container {
+    padding: 24px 16px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  .cell {
+    border-radius: 14px;
+
+    font-size: 48px;
+  }
+}
+
